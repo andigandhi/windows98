@@ -3,7 +3,7 @@ var isDown = false;
 
 var div;
 var titleBar;
-var offset;
+var offset = [0,0];
 var zMax = 1;
 
 function addMoveListeners(div1, titleBar1) {
@@ -16,12 +16,21 @@ function addMoveListeners(div1, titleBar1) {
 	inForground(div)
 }
 
-function documentMouseTrackStart() {
-	document.addEventListener('mouseup', function() { isDown = false;}, true);
-	document.addEventListener('touchend', function() { isDown = false;}, true);
 
-	document.addEventListener('mousemove', function(event) {mouseMove(event);}, true);
-	document.addEventListener('touchmove', function(event) {mouseMove(event);}, true);
+
+function documentMouseTrackStart() {
+	document.addEventListener('mouseup', function() { isDown = false; remDocumentTracker();}, true);
+	document.addEventListener('touchend', function() { isDown = false; remDocumentTracker();}, true);
+}
+
+function addDocumentTracker() {
+	document.addEventListener('mousemove', mouseMove, true);
+	document.addEventListener('touchmove', touchMove, true);
+}
+
+function remDocumentTracker() {
+	document.removeEventListener('mousemove', mouseMove, true);
+	document.removeEventListener('touchmove', touchMove, true);
 }
 
 function mousedown(e) {
@@ -49,6 +58,8 @@ function mousedown(e) {
 		];
 	}
 	
+	addDocumentTracker();
+	
 	inForground(div)
 }
 
@@ -57,13 +68,22 @@ function inForground(div) {
 	zMax++;
 }
 
+function touchMove(e) {
+	event.preventDefault();
+	
+	if (isDown) {
+		touchPosition = { x : e.changedTouches[0].clientX, y : e.changedTouches[0].clientY };
+		
+		div.style.left = (touchPosition.x + offset[0]) + 'px';
+		div.style.top  = (touchPosition.y + offset[1]) + 'px';
+	}
+}
+
 function mouseMove(e) {
 	event.preventDefault();
+	
 	if (isDown) {
 		mousePosition = { x : event.clientX, y : event.clientY };
-		if (typeof(mousePosition.x) === 'undefined') {
-			mousePosition = { x : e.changedTouches[0].clientX, y : e.changedTouches[0].clientY };
-		}
 		
 		div.style.left = (mousePosition.x + offset[0]) + 'px';
 		div.style.top  = (mousePosition.y + offset[1]) + 'px';
