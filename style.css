@@ -1,0 +1,47 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	background-color: #008080;
+	overflow: hidden;
+	color: #000;
+	font-size: 130%;
+	
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+a {
+	color: #000;
+}
+
+img {
+	image-rendering: crisp-edges;
+}
+
+.icon {
+	text-align: center;
+	font-family: "Pixelated MS Sans Serif",Arial;
+	font-size: 15px;
+	width: 64px;
+	margin: 16px;
+}
+
+#menuWind {
+	position: absolute;
+	width: 20vw;
+	left: 100px;
+}
+
+@media only screen and (max-width: 1000px) {
+	.window, button, input, label, option, select, textarea, ul.tree-view {
+		font-size: 20px;
+	}
+	
+	#menuWind {
+		width: 40vw;
+	}
+}
