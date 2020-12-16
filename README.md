@@ -1,2 +1,4 @@
-# windows95
-Making Jdans 98.css interactive
+# windows98
+This is an addition to the wonderful win98 styled css from [jdan](https://github.com/jdan/98.css).
+
+It adds Javascript to move the window divs with the mouse or with touch. It also adds a siteLoader.js to easily build a menu for loading new site links.
