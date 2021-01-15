@@ -7,7 +7,9 @@ It adds Javascript to move the window divs with the mouse or with touch. It also
 
 ## Installation Guide
 
-The installation is easy: Just clone the repository with 
+The installation is easy as this repository is a standalone project, it'll grab the latest version of 98.css automatically:
+
+Just clone the repository via
 ```
 $ git clone https://github.com/andigandhi/windows98
 ```
@@ -18,3 +20,4 @@ and open index.html in your browser. You should see the theme with some dummy co
 
 Content can be added in the /content folder in the form of .html documents.
 Every content has to be added to the siteLinks or the icons arrays in /js/siteLoader.js.
+The icon images have to be dropped as .png files into /img/ico with the same filename as the icon name on the desktop.
