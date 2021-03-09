@@ -2,7 +2,9 @@
 /* CSS Document */
 body {
 	background-color: #008080;
+	background-size: cover;
 	overflow: hidden;
+	overflow: none;
 	color: #000;
 	font-size: 130%;
 	
@@ -20,6 +22,10 @@ a {
 
 img {
 	image-rendering: crisp-edges;
+	image-rendering: pixelated;
+	
+	user-drag: none; 
+	-webkit-user-drag: none;
 }
 
 .icon {
@@ -27,13 +33,37 @@ img {
 	font-family: "Pixelated MS Sans Serif",Arial;
 	font-size: 15px;
 	width: 64px;
+	height: 100px;
 	margin: 16px;
+	float: left;
+	overflow: hidden;
 }
 
 #menuWind {
 	position: absolute;
 	width: 20vw;
 	left: 100px;
+	top: 150px;
+}
+
+#taskbar {
+	position: absolute;
+	left: -5px;
+	width: 110%;
+	height: 50px;
+	z-index: 100;
+}
+
+.taskElement {
+	float: left;
+	text-align: left;
+	height: 30px;
+	margin: 5px;
+	width: 200px;
+}
+
+button.active {
+  box-shadow: inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
 }
 
 @media only screen and (max-width: 1000px) {
