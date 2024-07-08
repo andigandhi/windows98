@@ -2,7 +2,7 @@
 /* CSS Document */
 body {
 	background-color: #008080;
-	background-image: url('/img/bg.jpg');
+	background-image: url('img/bg.jpg');
 	background-size: cover;
 	overflow: hidden;
 	overflow: none;
