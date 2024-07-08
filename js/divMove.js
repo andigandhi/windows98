@@ -13,7 +13,7 @@ function addMoveListeners(div1, titleBar1) {
 	titleBar.addEventListener('mousedown', function(event) {mousedown(event);}, true);
 	titleBar.addEventListener('touchstart', function(event) {mousedown(event);}, true);
 	
-	inForground(div)
+	inForground(div);
 }
 
 
@@ -60,7 +60,7 @@ function mousedown(e) {
 	
 	addDocumentTracker();
 	
-	inForground(div)
+	inForground(div);
 }
 
 function inForground(div) {

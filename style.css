@@ -2,6 +2,7 @@
 /* CSS Document */
 body {
 	background-color: #008080;
+	background-image: url('/img/bg.jpg');
 	background-size: cover;
 	overflow: hidden;
 	overflow: none;
@@ -15,11 +16,9 @@ body {
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
-
 a {
 	color: #000;
 }
-
 img {
 	image-rendering: crisp-edges;
 	image-rendering: pixelated;
@@ -27,7 +26,6 @@ img {
 	user-drag: none; 
 	-webkit-user-drag: none;
 }
-
 .icon {
 	text-align: center;
 	font-family: "Pixelated MS Sans Serif",Arial;
@@ -39,27 +37,49 @@ img {
 	overflow: hidden;
 }
 
-#menuWind {
+
+#mainMenu {
 	position: absolute;
-	width: 20vw;
-	left: 100px;
-	top: 150px;
+	left: 5px;
+	width: 300px;
+	overflow:overlay;
+	z-index: 100;
 }
+#mainMenuSideBar {
+	background: rgb(0,0,126);
+	background: linear-gradient(180deg, rgba(0,0,126,1) 70%, rgba(14,6,246,1) 85%, rgba(0,0,126,1) 100%);
+	width: 15px;
+	float:left;
+}
+#menuUL {
+	margin-left: 20px;
+}
+.menuButton {
+	width: 98%;
+	text-align: left;
+}
+.menuText {
+	font-size: larger;
+}
+
 
 #taskbar {
 	position: absolute;
 	left: -5px;
 	width: 110%;
 	height: 50px;
-	z-index: 100;
+	z-index: 99;
 }
-
 .taskElement {
 	float: left;
 	text-align: left;
 	height: 30px;
 	margin: 5px;
 	width: 200px;
+}
+#btnClock {
+	float: right;
+	height: 30px;
 }
 
 button.active {
