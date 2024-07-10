@@ -1,0 +1,15 @@
+<script src="/content-markdown/showdown.js"></script>
+<script>
+    showdown.setOption('openLinksInNewWindow', true);
+    showdown.setOption('parseImgDimension', true);
+    var converter = new showdown.Converter();
+    var client = new XMLHttpRequest();
+    var site = new URLSearchParams(window.location.search).get('site');
+    site = site.replace(/\W/g, '');
+    client.open('GET', '/content-markdown/'+site+'.md');
+    client.onreadystatechange = function() {
+        html      = converter.makeHtml(client.responseText);
+        document.body.innerHTML = html;
+    }
+    client.send();
+</script>

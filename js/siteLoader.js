@@ -8,8 +8,7 @@ var siteLinks = [
 // The Icons on the desktop, images have to be deposited in /img/ico/
 // ['Name / Name.png','link']
 var icons = [
-	['TestIcon', 'content/index.html'],
-	//['MarkdownSite', 'content-markdown/index.html?site=example'],
+	['TestIcon', 'content-markdown/index.html?site=example'],
 ]
 
 
