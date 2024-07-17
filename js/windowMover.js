@@ -6,6 +6,7 @@ var titleBar;
 var offset = [0,0];
 var zMax = 1;
 
+// Adds the listener to the title bar of a window
 function addMoveListeners(div1, titleBar1) {
 	div = div1;
 	titleBar = titleBar1;
@@ -16,23 +17,13 @@ function addMoveListeners(div1, titleBar1) {
 	inForground(div);
 }
 
-
-
-function documentMouseTrackStart() {
-	document.addEventListener('mouseup', function() { isDown = false; remDocumentTracker();}, true);
-	document.addEventListener('touchend', function() { isDown = false; remDocumentTracker();}, true);
-}
-
+// Starts the mouse tracking
 function addDocumentTracker() {
 	document.addEventListener('mousemove', mouseMove, true);
 	document.addEventListener('touchmove', touchMove, true);
 }
 
-function remDocumentTracker() {
-	document.removeEventListener('mousemove', mouseMove, true);
-	document.removeEventListener('touchmove', touchMove, true);
-}
-
+// Calculates initial cursor offset for mouse movement
 function mousedown(e) {
 	div = e.target.parentElement;
 	
@@ -63,11 +54,24 @@ function mousedown(e) {
 	inForground(div);
 }
 
+// Stops the mouse tracking
+function documentMouseTrackStart() {
+	document.addEventListener('mouseup', function() { isDown = false; remDocumentTracker();}, true);
+	document.addEventListener('touchend', function() { isDown = false; remDocumentTracker();}, true);
+}
+function remDocumentTracker() {
+	document.removeEventListener('mousemove', mouseMove, true);
+	document.removeEventListener('touchmove', touchMove, true);
+}
+
+// Move window to the front
 function inForground(div) {
 	div.style.zIndex = zMax;
+	//document.getElementById(div.id+'t').active = true;
 	zMax++;
 }
 
+// Movement listener for mobile phones
 function touchMove(e) {
 	event.preventDefault();
 	
@@ -79,6 +83,7 @@ function touchMove(e) {
 	}
 }
 
+// Movement listener for PCs
 function mouseMove(e) {
 	event.preventDefault();
 	

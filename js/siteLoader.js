@@ -1,21 +1,21 @@
 // Links to the different sub-sites of the page
 // ['Name of the Link', 'link adress']
 var siteLinks = [
-	['Non Clickable Menu Point',''],
-	['My First Page', 'content/index.html']
+	['Non Clickable Menu Point','',''],
+	['My First Page', 'content/index.html','TestIcon.png']
 ];
 
 // The Icons on the desktop, images have to be deposited in /img/ico/
 // ['Name / Name.png','link']
 var icons = [
-	['TestIcon', 'content-markdown/index.html?site=example'],
+	['TestIcon', 'content-markdown/index.html?site=example','TestIcon.png'],
 ]
 
 
 // ------ Methods for the window divs ------
 
 // Adds a new window with a innerHtml to the document
-function addWindow(title, innerHtml, w, h, left, top) {
+function addWindow(title, icon, innerHtml, w, h, left, top) {
 	var id = Math.floor((Math.random() * 1000000) + 1000);
 	
 	var win = document.createElement('div');
@@ -28,13 +28,14 @@ function addWindow(title, innerHtml, w, h, left, top) {
 	
 	var titleBarText = document.createElement('div');
 	titleBarText.setAttribute('class', 'title-bar-text');
-	titleBarText.innerHTML = title;
+	titleBarText.innerHTML = '<img alt="" src="/img/ico/'+icon+'" style="height: 11px; margin-right: 5px; float:left;">'
+	titleBarText.innerHTML += title;
 	titleBar.appendChild(titleBarText);
 	
 	var titleBarIcon = document.createElement('div');
 	titleBarIcon.setAttribute('class', 'title-bar-controls');
 	titleBarIcon.innerHTML = "<button aria-label=\"Minimize\" onClick=\"toggleWindow("+id+")\"></button>";
-	//titleBarIcon.innerHTML += "<button aria-label=\"Maximize\" onClick=\"maximizeWindow("+id+")\"></button>";
+	titleBarIcon.innerHTML += "<button aria-label=\"Maximize\" onClick=\"maximizeWindow("+id+")\"></button>";
 	titleBarIcon.innerHTML += "<button aria-label=\"Close\" onClick=\"removeWindow("+id+")\"></button>";
 	titleBar.appendChild(titleBarIcon);
 	
@@ -81,17 +82,19 @@ function maximizeWindow(id) {
 // Creates the inner html for a Window and calls addWindow()
 function fillWindow(no, w, h) {
 	let title = "";
+	let icon = "";
 	let link = "";
 	let innerHTML = "";
 	if (typeof(no) === 'object') {
 		title = no[0];
 		link = no[1];
+		icon = no[2];
 	} else {
 		title = siteLinks[no][0];
 		link = siteLinks[no][1];
-		
-		w = siteLinks[no][2];
-		h = siteLinks[no][3];
+		icon = siteLinks[no][2];
+		w = siteLinks[no][3];
+		h = siteLinks[no][4];
 	}
 	
 	var left = Math.floor(Math.random() * 20);
@@ -109,7 +112,7 @@ function fillWindow(no, w, h) {
 		//innerHTML='<iframe width="800" height="450" type="text/html" src="'+link+'" frameborder="0" allowfullscreen onmouseover = "mouseMove(\'event\')"></iframe>';
 	}
 	
-	addWindow(title, innerHTML, w, h, left, top);
+	addWindow(title, icon, innerHTML, w, h, left, top);
 }
 
 // Creates the inner html for a popup window (smaller than a regular one) and calls addWindow()
@@ -117,7 +120,7 @@ function addPopup() {
 	var left = Math.floor((Math.random() * 80) + 0);
 	var top = Math.floor((Math.random() * 20) + 0);
 	//addWindow("Werbung", "<img alt='' src='img/corona-sticker-werbung.jpg' width=100% onclick='alert(\"Schreib mir einfach auf Instagram :)\")' style='cursor: pointer'>", 400, 300, left, top);
-	addWindow("Liebe Grüße", '<object type="text/html" data="/content/boomer-bild/index.html" width=500px height=400px style="overflow-right: hidden;" onmouseover = "mouseMove(\'event\')"></object>', 520, 430, left, top);
+	addWindow("Liebe Grüße", "", '<object type="text/html" data="/content/boomer-bild/index.html" width=500px height=400px style="overflow-right: hidden;" onmouseover = "mouseMove(\'event\')"></object>', 520, 430, left, top);
 }
 
 // Removes a window with a specific ID
@@ -144,6 +147,8 @@ function toggleWindow(id) {
 
 
 // ------ Functions for the bulding of the menu ------
+
+// Builds the menu
 function build_menu() {	
 	var ulRoot = document.getElementById('menuUL');
 	ul = ulRoot;
@@ -159,7 +164,7 @@ function build_menu() {
 			ulRoot.appendChild(document.createElement("br"))
 			let li = document.createElement('button');
 			li.style.height = "30px";
-			li.innerHTML = '<img alt="" src="/img/ico/'+siteLinks[i][0]+'.png" style="width: 20px; margin: 5px; float:left;">'
+			if (siteLinks[i][2] != '') li.innerHTML = '<img alt="" src="/img/ico/'+siteLinks[i][2]+'" style="width: 20px; margin: 5px; float:left;">'
 			li.innerHTML += '<div style="height: 20px;line-height: 20px;margin: 5px;"><b>'+siteLinks[i][0]+'</b></div>';
 			li.className = "menuButton";
 			ul.appendChild(li);
@@ -206,10 +211,10 @@ function toggleMenu() {
 }
 
 // Creates a desktop icon
-function createIcon(name, link, w, h) {
+function createIcon(name, link, iconImage, w, h) {
 	var ico = document.createElement('div');
 	ico.setAttribute('class', 'icon');
-	ico.innerHTML = '<img alt="" src="img/ico/'+name+'.png" width="100%" style="cursor: pointer;" onClick="fillWindow([\''+name+'\', \''+link+'\'], '+w+', '+h+');">';
+	ico.innerHTML = '<img alt="" src="img/ico/'+iconImage+'" width="100%" style="cursor: pointer;" onClick="fillWindow([\''+name+'\', \''+link+'\', \''+iconImage+'\'], '+w+', '+h+');">';
 	ico.innerHTML += name;
 	
 	addMoveListeners(ico, ico);
@@ -220,54 +225,11 @@ function createIcon(name, link, w, h) {
 // Creates all the icons of the array icon[] by calling createIcon()
 function createIcons() {
 	for (var i = 0; i < icons.length; i++) {
-		createIcon(icons[i][0], icons[i][1], icons[i][2], icons[i][3]);
+		createIcon(icons[i][0], icons[i][1], icons[i][2], icons[i][3], icons[i][4]);
 	}
 }
 
-
-
-
-
-// Menu Actions
-
-function einstellungen() {
-	let eDiv = document.getElementById("einstellungen");
-	if (eDiv.style.display == "inline") {
-		eDiv.style.display = "none";
-		document.getElementById("einstellungBtn").innerHTML = "Einstellungen öffnen";
-	} else {
-		eDiv.style.display = "inline";
-		document.getElementById("einstellungBtn").innerHTML = "Einstellungen schließen";
-	}
-}
-
-function randomBackgroundColor() {
-	var letters = '0123456789ABCDEF';
-	var color = '#';
-	for (var i = 0; i < 6; i++) {
-		color += letters[Math.floor(Math.random() * 16)];
-	}
-	document.body.style.backgroundColor = color;
-	if (document.body.style.backgroundImage !== "") {
-		addAesthetics();	
-	}
-}
-
-function addAesthetics() {
-	if (document.body.style.backgroundImage === "") {
-		document.body.style.backgroundImage = "url('/img/bg.jpg')";
-		document.getElementById("aestheticBtn").innerHTML = "wieder der einfarbige Hintergrund";
-		var audio = new Audio('https://www.winhistory.de/more/winstart/mp3/win95.mp3');
-		audio.play();
-	} else {
-		document.body.style.backgroundImage = "";
-		document.getElementById("aestheticBtn").innerHTML = "wieder den Wolkenhintergrund";
-	}
-}
-
-
-
-// Ermöglicht Links zu Unterseiten
+// Allows to open Windows using direct links
 function openLinkedWindow() {
 	let no = window.location.search.substr(1);
 	if (no === "") {
