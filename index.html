@@ -7,13 +7,12 @@
 	<title>Windows 98</title>
 </head>
 	
-<body onResize="positionTaskbar()">
+<body onResize="positionTaskbar()" onLoad="positionTaskbar()">
 
 	<!-- Creates the main Menu -->
 	<div class="window" id="mainMenu">
 		<div id="mainMenuSideBar"></div>
-		<div id="menuUL">
-			<img alt="Windows98 Logo" src="img/andigandhi98.png" style="width: 150px; margin-top: 5px;" onload="positionTaskbar()">
+		<div id="menu_content">
 		</div>
 	</div>
 	
@@ -21,8 +20,6 @@
 	<div class="window" id="taskbar">
 		<!-- Button for the main Menu -->
 		<button id="taskMenBtn" class="taskElement active" style="width: 30px; text-align: center" onClick="toggleMenu()"></button>
-		<!-- Clock TODO! -->
-		<!-- <button class="active" id="btnClock">13:37</button> -->
 	</div>
 
 	<!-- Script to add the move listener to the window divs -->

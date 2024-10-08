@@ -1,13 +1,13 @@
 // Links to the different sub-sites of the page
 // ['Name of the Link', 'link adress']
-var siteLinks = [
+var menu_icons = [
 	['Non Clickable Menu Point','',''],
 	['My First Page', 'content/index.html','TestIcon.png']
 ];
 
 // The Icons on the desktop, images have to be deposited in /img/ico/
 // ['Name / Name.png','link']
-var icons = [
+var desktop_icons = [
 	['TestIcon', 'content-markdown/index.html?site=example','TestIcon.png'],
 ]
 
@@ -16,67 +16,74 @@ var icons = [
 
 // Adds a new window with a innerHtml to the document
 function addWindow(title, icon, innerHtml, w, h, left, top) {
-	var id = Math.floor((Math.random() * 1000000) + 1000);
+	// Create a random ID
+	var window_id = Math.floor((Math.random() * 1000000) + 1000);
+	// Create the window div and add attributes
+	var new_window = document.createElement('div');
+	new_window.setAttribute('class', 'window');
+	new_window.setAttribute('id', window_id);
+	new_window.style = "position: absolute; width: "+w+"px; height: "+h+"px; left: "+left+"%; top: "+top+"%";
 	
-	var win = document.createElement('div');
-	win.setAttribute('class', 'window');
-	win.setAttribute('id', id);
-	win.style = "position: absolute; width: "+w+"px; height: "+h+"px; left: "+left+"%; top: "+top+"%";
+	// Create the title bar of the window
+	var title_bar = document.createElement('div');
+	title_bar.setAttribute('class', 'title-bar');
 	
-	var titleBar = document.createElement('div');
-	titleBar.setAttribute('class', 'title-bar');
+	// Create the text of the tile bar and add it to the title bar itself
+	var title_bar_text = document.createElement('div');
+	title_bar_text.setAttribute('class', 'title-bar-text');
+	title_bar_text.innerHTML = '<img alt="" src="/img/ico/'+icon+'" style="height: 11px; margin-right: 5px; float:left;">'
+	title_bar_text.innerHTML += title;
+	title_bar.appendChild(title_bar_text);
 	
-	var titleBarText = document.createElement('div');
-	titleBarText.setAttribute('class', 'title-bar-text');
-	titleBarText.innerHTML = '<img alt="" src="/img/ico/'+icon+'" style="height: 11px; margin-right: 5px; float:left;">'
-	titleBarText.innerHTML += title;
-	titleBar.appendChild(titleBarText);
+	// Create the icons for the title bar and add them
+	var title_bar_item = document.createElement('div');
+	title_bar_item.setAttribute('class', 'title-bar-controls');
+	title_bar_item.innerHTML = "<button aria-label=\"Minimize\" onClick=\"toggleWindow("+window_id+")\"></button>";
+	title_bar_item.innerHTML += "<button aria-label=\"Maximize\" onClick=\"maximizeWindow("+window_id+")\"></button>";
+	title_bar_item.innerHTML += "<button aria-label=\"Close\" onClick=\"removeWindow("+window_id+")\"></button>";
+	title_bar.appendChild(title_bar_item);
 	
-	var titleBarIcon = document.createElement('div');
-	titleBarIcon.setAttribute('class', 'title-bar-controls');
-	titleBarIcon.innerHTML = "<button aria-label=\"Minimize\" onClick=\"toggleWindow("+id+")\"></button>";
-	titleBarIcon.innerHTML += "<button aria-label=\"Maximize\" onClick=\"maximizeWindow("+id+")\"></button>";
-	titleBarIcon.innerHTML += "<button aria-label=\"Close\" onClick=\"removeWindow("+id+")\"></button>";
-	titleBar.appendChild(titleBarIcon);
+	// Add the title bar to the window
+	new_window.appendChild(title_bar);
 	
-	win.appendChild(titleBar);
+	// Create the content of the window
+	var window_content = document.createElement('div');
+	window_content.setAttribute('class', 'window-body');
+	window_content.style = "position: relative; height: "+h+"px; overflow: hidden;";
+	window_content.innerHTML = innerHtml;
+	new_window.appendChild(window_content);
 	
-	var winInnen = document.createElement('div');
-	winInnen.setAttribute('class', 'window-body');
-	winInnen.style = "position: relative; height: "+h+"px; overflow: hidden;";
-	winInnen.innerHTML = innerHtml;
+	// Add the listeners for dragging the window
+	addMoveListeners(new_window, title_bar);
 	
-	win.appendChild(winInnen);
+	// Append the window to the DOM
+	document.body.appendChild(new_window);
 	
-	addMoveListeners(win, titleBar);
-	
-	document.body.appendChild(win);
-	
-	
-	var task = document.createElement('button');
-	task.setAttribute('id', id+'t');
-	task.setAttribute('class', 'taskElement active');
-	task.setAttribute('onClick', 'toggleWindow('+id+')');
-	task.innerHTML = "<b>"+title+"</b>";
-	document.getElementById("taskbar").appendChild(task);
+	// Add the taskbar item
+	var taskbar_item = document.createElement('button');
+	taskbar_item.setAttribute('id', window_id+'t');
+	taskbar_item.setAttribute('class', 'taskElement active');
+	taskbar_item.setAttribute('onClick', 'toggleWindow('+window_id+')');
+	taskbar_item.innerHTML = "<b>"+title+"</b>";
+	document.getElementById("taskbar").appendChild(taskbar_item);
 }
 
 function maximizeWindow(id) {
-	var win = document.getElementById(id);
+	var window_div = document.getElementById(id);
 	
 	w = "100%";
 	h = "100%";
 	
-	if (win.style.width == "100%") {
+	if (window_div.style.width == "100%") {
 		w = "816px";
 		h = "480px"
 	} else {
-		win.style.top = "0";
-		win.style.left = "0";
+		window_div.style.top = "0";
+		window_div.style.left = "0";
 	}
 	
-	win.style.width = w;
-	win.style.height = h;
+	window_div.style.width = w;
+	window_div.style.height = h;
 }
 
 // Creates the inner html for a Window and calls addWindow()
@@ -90,11 +97,11 @@ function fillWindow(no, w, h) {
 		link = no[1];
 		icon = no[2];
 	} else {
-		title = siteLinks[no][0];
-		link = siteLinks[no][1];
-		icon = siteLinks[no][2];
-		w = siteLinks[no][3];
-		h = siteLinks[no][4];
+		title = menu_icons[no][0];
+		link = menu_icons[no][1];
+		icon = menu_icons[no][2];
+		w = menu_icons[no][3];
+		h = menu_icons[no][4];
 	}
 	
 	var left = Math.floor(Math.random() * 20);
@@ -106,21 +113,14 @@ function fillWindow(no, w, h) {
 	}
 	
 	if (link.startsWith("http")) {
+		// IFrame for external links
 		innerHTML='<iframe width="'+(w-16)+'px" height="'+(h-30)+'px" type="text/html" src="'+link+'" frameborder="0" allowfullscreen onmouseover = "mouseMove(\'event\')"></iframe>';
 	} else {
+		// Object for internal links
 		innerHTML='<object type="text/html" data="'+link+'" width="'+(w-16)+'px" height="'+(h-30)+'px" style="overflow-right: hidden;" onmouseover = "mouseMove(\'event\')"></object>';
-		//innerHTML='<iframe width="800" height="450" type="text/html" src="'+link+'" frameborder="0" allowfullscreen onmouseover = "mouseMove(\'event\')"></iframe>';
 	}
 	
 	addWindow(title, icon, innerHTML, w, h, left, top);
-}
-
-// Creates the inner html for a popup window (smaller than a regular one) and calls addWindow()
-function addPopup() {
-	var left = Math.floor((Math.random() * 80) + 0);
-	var top = Math.floor((Math.random() * 20) + 0);
-	//addWindow("Werbung", "<img alt='' src='img/corona-sticker-werbung.jpg' width=100% onclick='alert(\"Schreib mir einfach auf Instagram :)\")' style='cursor: pointer'>", 400, 300, left, top);
-	addWindow("Liebe Grüße", "", '<object type="text/html" data="/content/boomer-bild/index.html" width=500px height=400px style="overflow-right: hidden;" onmouseover = "mouseMove(\'event\')"></object>', 520, 430, left, top);
 }
 
 // Removes a window with a specific ID
@@ -131,18 +131,17 @@ function removeWindow(id) {
 
 // Removes a window with a specific ID
 function toggleWindow(id) {
-	var win = document.getElementById(id);
-	var btn = document.getElementById(id+'t');
+	var window_div = document.getElementById(id);
+	var taskbar_button = document.getElementById(id+'t');
 	
-	if (win.style.visibility == "hidden") {
-		win.style.visibility = "";
-		btn.classList.add("active");
-		inForground(win);
+	if (window_div.style.visibility == "hidden") {
+		window_div.style.visibility = "";
+		taskbar_button.classList.add("active");
+		inForground(window_div);
 	} else {
-		win.style.visibility = "hidden";
-		btn.classList.remove("active");
+		window_div.style.visibility = "hidden";
+		taskbar_button.classList.remove("active");
 	}
-	//document.getElementById("taskbar").removeChild(document.getElementById(id+'t'));
 }
 
 
@@ -150,32 +149,34 @@ function toggleWindow(id) {
 
 // Builds the menu
 function build_menu() {	
-	var ulRoot = document.getElementById('menuUL');
-	ul = ulRoot;
+	var menu_div = document.getElementById('menu_content');
 
-	for (var i = 0;i < siteLinks.length; i++) {
-		if (siteLinks[i][1] === '') {
-			ulRoot.appendChild(document.createElement("hr"))
+	menu_div.innerHTML = '<img alt="" src="/img/andigandhi98.png" style="width: 150px; margin-top: 5px;">'
+
+	for (var i = 0;i < menu_icons.length; i++) {
+		if (menu_icons[i][1] === '') {
+			menu_div.appendChild(document.createElement("hr"))
 			let label = document.createElement('label');
-			label.innerHTML += siteLinks[i][0];
+			label.innerHTML += menu_icons[i][0];
 			label.className = "menuText";
-			ulRoot.appendChild(label);
+			menu_div.appendChild(label);
 		} else {
-			ulRoot.appendChild(document.createElement("br"))
-			let li = document.createElement('button');
-			li.style.height = "30px";
-			if (siteLinks[i][2] != '') li.innerHTML = '<img alt="" src="/img/ico/'+siteLinks[i][2]+'" style="width: 20px; margin: 5px; float:left;">'
-			li.innerHTML += '<div style="height: 20px;line-height: 20px;margin: 5px;"><b>'+siteLinks[i][0]+'</b></div>';
-			li.className = "menuButton";
-			ul.appendChild(li);
-			li.setAttribute('onClick', 'fillWindow('+i+');');
+			menu_div.appendChild(document.createElement("br"))
+			let menu_item = document.createElement('button');
+			menu_item.style.height = "30px";
+			if (menu_icons[i][2] != '') menu_item.innerHTML = '<img alt="" src="/img/ico/'+menu_icons[i][2]+'" style="width: 20px; margin: 5px; float:left;">'
+			menu_item.innerHTML += '<div style="height: 20px;line-height: 20px;margin: 5px;"><b>'+menu_icons[i][0]+'</b></div>';
+			menu_item.className = "menuButton";
+			menu_div.appendChild(menu_item);
+			menu_item.setAttribute('onClick', 'fillWindow('+i+');');
 		}
 	}
-	ulRoot.appendChild(document.createElement("hr"))
+	menu_div.appendChild(document.createElement("hr"))
 
 	positionTaskbar();
 }
 
+// Position the taskbar on the bottom
 function positionTaskbar() {
 	// don't show taskbar on mobile devices
 	var isMobile = false;
@@ -198,49 +199,49 @@ function positionTaskbar() {
 
 // Toggles the visibility of the menu
 function toggleMenu() {
-	var men = document.getElementById("mainMenu");
-	var btn = document.getElementById("taskMenBtn");
+	var menu_div = document.getElementById("mainMenu");
+	var menu_button = document.getElementById("taskMenBtn");
 	
-	if (men.style.visibility == "hidden") {
-		men.style.visibility = "";
-		btn.classList.add("active");
+	if (menu_div.style.visibility == "hidden") {
+		menu_div.style.visibility = "";
+		menu_button.classList.add("active");
 	} else {
-		men.style.visibility = "hidden";
-		btn.classList.remove("active");
+		menu_div.style.visibility = "hidden";
+		menu_button.classList.remove("active");
 	}
 }
 
 // Creates a desktop icon
 function createIcon(name, link, iconImage, w, h) {
-	var ico = document.createElement('div');
-	ico.setAttribute('class', 'icon');
-	ico.innerHTML = '<img alt="" src="img/ico/'+iconImage+'" width="100%" style="cursor: pointer;" onClick="fillWindow([\''+name+'\', \''+link+'\', \''+iconImage+'\'], '+w+', '+h+');">';
-	ico.innerHTML += name;
+	var desktop_icon = document.createElement('div');
+	desktop_icon.setAttribute('class', 'icon');
+	desktop_icon.innerHTML = '<img alt="" src="img/ico/'+iconImage+'" width="100%" style="cursor: pointer;" onClick="fillWindow([\''+name+'\', \''+link+'\', \''+iconImage+'\'], '+w+', '+h+');">';
+	desktop_icon.innerHTML += name;
 	
-	addMoveListeners(ico, ico);
+	addMoveListeners(desktop_icon, desktop_icon);
 	
-	document.body.appendChild(ico);
+	document.body.appendChild(desktop_icon);
 }
 
 // Creates all the icons of the array icon[] by calling createIcon()
 function createIcons() {
-	for (var i = 0; i < icons.length; i++) {
-		createIcon(icons[i][0], icons[i][1], icons[i][2], icons[i][3], icons[i][4]);
+	for (var i = 0; i < desktop_icons.length; i++) {
+		createIcon(desktop_icons[i][0], desktop_icons[i][1], desktop_icons[i][2], desktop_icons[i][3], desktop_icons[i][4]);
 	}
 }
 
 // Allows to open Windows using direct links
 function openLinkedWindow() {
-	let no = window.location.search.substr(1);
-	if (no === "") {
+	let window_no = window.location.search.substr(1);
+	if (window_no === "") {
 		fillWindow(1);
 		return;
 	}
-	no = parseInt(no);
-	if (no>=siteLinks.length) {
-		fillWindow(icons[no-siteLinks.length])
+	window_no = parseInt(window_no);
+	if (window_no>=menu_icons.length) {
+		fillWindow(desktop_icons[window_no-menu_icons.length])
 	} else {
-		fillWindow(no);
+		fillWindow(window_no);
 	}
 }
 
