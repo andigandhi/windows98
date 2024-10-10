@@ -137,7 +137,7 @@ function toggleWindow(id) {
 	if (window_div.style.visibility == "hidden") {
 		window_div.style.visibility = "";
 		taskbar_button.classList.add("active");
-		inForground(window_div);
+		focus_window(window_div);
 	} else {
 		window_div.style.visibility = "hidden";
 		taskbar_button.classList.remove("active");
@@ -151,7 +151,7 @@ function toggleWindow(id) {
 function build_menu() {	
 	var menu_div = document.getElementById('menu_content');
 
-	menu_div.innerHTML = '<img alt="" src="/img/andigandhi98.png" style="width: 150px; margin-top: 5px;">'
+	menu_div.innerHTML = '<img alt="" src="img/andigandhi98.png" style="width: 150px; margin-top: 5px;">'
 
 	for (var i = 0;i < menu_icons.length; i++) {
 		if (menu_icons[i][1] === '') {
@@ -164,7 +164,7 @@ function build_menu() {
 			menu_div.appendChild(document.createElement("br"))
 			let menu_item = document.createElement('button');
 			menu_item.style.height = "30px";
-			if (menu_icons[i][2] != '') menu_item.innerHTML = '<img alt="" src="/img/ico/'+menu_icons[i][2]+'" style="width: 20px; margin: 5px; float:left;">'
+			if (menu_icons[i][2] != '') menu_item.innerHTML = '<img alt="" src="img/ico/'+menu_icons[i][2]+'" style="width: 20px; margin: 5px; float:left;">'
 			menu_item.innerHTML += '<div style="height: 20px;line-height: 20px;margin: 5px;"><b>'+menu_icons[i][0]+'</b></div>';
 			menu_item.className = "menuButton";
 			menu_div.appendChild(menu_item);

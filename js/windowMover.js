@@ -1,20 +1,17 @@
-var mousePosition;
-var isDown = false;
+var mouse_position;
+var mouse_is_down = false;
 
-var div;
-var titleBar;
-var offset = [0,0];
-var zMax = 1;
+var window_div;
+var title_bar;
+var window_mouse_offset = [0,0];
+var highest_z_value = 1;
 
 // Adds the listener to the title bar of a window
-function addMoveListeners(div1, titleBar1) {
-	div = div1;
-	titleBar = titleBar1;
+function addMoveListeners(window_div, title_bar) {
+	title_bar.addEventListener('mousedown', function(event) {mousedown(event);}, true);
+	title_bar.addEventListener('touchstart', function(event) {mousedown(event);}, true);
 	
-	titleBar.addEventListener('mousedown', function(event) {mousedown(event);}, true);
-	titleBar.addEventListener('touchstart', function(event) {mousedown(event);}, true);
-	
-	inForground(div);
+	focus_window(window_div);
 }
 
 // Starts the mouse tracking
@@ -25,9 +22,9 @@ function addDocumentTracker() {
 
 // Calculates initial cursor offset for mouse movement
 function mousedown(e) {
-	div = e.target.parentElement;
+	window_div = e.target.parentElement;
 	
-	if (div === null) {
+	if (window_div === null) {
 		return;
 	}
 	
@@ -35,29 +32,29 @@ function mousedown(e) {
 		return;
 	}
 	
-	offset = [div.offsetLeft, div.offsetTop];
-	isDown = true;
-	offset = [
-		div.offsetLeft - e.clientX,
-		div.offsetTop - e.clientY
+	window_mouse_offset = [window_div.offsetLeft, window_div.offsetTop];
+	mouse_is_down = true;
+	window_mouse_offset = [
+		window_div.offsetLeft - e.clientX,
+		window_div.offsetTop - e.clientY
 	];
 	
-	if (isNaN(offset[0])) {
-		offset = [
-			div.offsetLeft - e.touches[0].clientX,
-			div.offsetTop - e.touches[0].clientY
+	if (isNaN(window_mouse_offset[0])) {
+		window_mouse_offset = [
+			window_div.offsetLeft - e.touches[0].clientX,
+			window_div.offsetTop - e.touches[0].clientY
 		];
 	}
 	
 	addDocumentTracker();
 	
-	inForground(div);
+	focus_window(window_div);
 }
 
 // Stops the mouse tracking
 function documentMouseTrackStart() {
-	document.addEventListener('mouseup', function() { isDown = false; remDocumentTracker();}, true);
-	document.addEventListener('touchend', function() { isDown = false; remDocumentTracker();}, true);
+	document.addEventListener('mouseup', function() { mouse_is_down = false; remDocumentTracker();}, true);
+	document.addEventListener('touchend', function() { mouse_is_down = false; remDocumentTracker();}, true);
 }
 function remDocumentTracker() {
 	document.removeEventListener('mousemove', mouseMove, true);
@@ -65,21 +62,20 @@ function remDocumentTracker() {
 }
 
 // Move window to the front
-function inForground(div) {
-	div.style.zIndex = zMax;
-	//document.getElementById(div.id+'t').active = true;
-	zMax++;
+function focus_window(div) {
+	div.style.zIndex = highest_z_value;
+	highest_z_value++;
 }
 
 // Movement listener for mobile phones
 function touchMove(e) {
 	event.preventDefault();
 	
-	if (isDown) {
+	if (mouse_is_down) {
 		touchPosition = { x : e.changedTouches[0].clientX, y : e.changedTouches[0].clientY };
 		
-		div.style.left = (touchPosition.x + offset[0]) + 'px';
-		div.style.top  = (touchPosition.y + offset[1]) + 'px';
+		window_div.style.left = (touchPosition.x + window_mouse_offset[0]) + 'px';
+		window_div.style.top  = (touchPosition.y + window_mouse_offset[1]) + 'px';
 	}
 }
 
@@ -87,11 +83,11 @@ function touchMove(e) {
 function mouseMove(e) {
 	event.preventDefault();
 	
-	if (isDown) {
-		mousePosition = { x : event.clientX, y : event.clientY };
+	if (mouse_is_down) {
+		mouse_position = { x : event.clientX, y : event.clientY };
 		
-		div.style.left = (mousePosition.x + offset[0]) + 'px';
-		div.style.top  = (mousePosition.y + offset[1]) + 'px';
+		window_div.style.left = (mouse_position.x + window_mouse_offset[0]) + 'px';
+		window_div.style.top  = (mouse_position.y + window_mouse_offset[1]) + 'px';
 	}
 }
 
