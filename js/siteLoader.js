@@ -31,7 +31,7 @@ function addWindow(title, icon, innerHtml, w, h, left, top) {
 	// Create the text of the tile bar and add it to the title bar itself
 	var title_bar_text = document.createElement('div');
 	title_bar_text.setAttribute('class', 'title-bar-text');
-	title_bar_text.innerHTML = '<img alt="" src="/img/ico/'+icon+'" style="height: 11px; margin-right: 5px; float:left;">'
+	title_bar_text.innerHTML = '<img alt="" src="img/ico/'+icon+'" style="height: 11px; margin-right: 5px; float:left;">'
 	title_bar_text.innerHTML += title;
 	title_bar.appendChild(title_bar_text);
 	
