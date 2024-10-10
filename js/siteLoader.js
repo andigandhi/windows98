@@ -39,7 +39,7 @@ function addWindow(title, icon, innerHtml, w, h, left, top) {
 	var title_bar_item = document.createElement('div');
 	title_bar_item.setAttribute('class', 'title-bar-controls');
 	title_bar_item.innerHTML = "<button aria-label=\"Minimize\" onClick=\"toggleWindow("+window_id+")\"></button>";
-	title_bar_item.innerHTML += "<button aria-label=\"Maximize\" onClick=\"maximizeWindow("+window_id+")\"></button>";
+	title_bar_item.innerHTML += "<button id=\"btn-resize-"+window_id+"\" aria-label=\"Maximize\" onClick=\"maximizeWindow("+window_id+")\"></button>";
 	title_bar_item.innerHTML += "<button aria-label=\"Close\" onClick=\"removeWindow("+window_id+")\"></button>";
 	title_bar.appendChild(title_bar_item);
 	
@@ -68,18 +68,21 @@ function addWindow(title, icon, innerHtml, w, h, left, top) {
 	document.getElementById("taskbar").appendChild(taskbar_item);
 }
 
-function maximizeWindow(id) {
-	var window_div = document.getElementById(id);
+function maximizeWindow(window_id) {
+	var window_div = document.getElementById(window_id);
+	var resize_button = document.getElementById("btn-resize-"+window_id)
 	
 	w = "100%";
 	h = "100%";
 	
 	if (window_div.style.width == "100%") {
 		w = "816px";
-		h = "480px"
+		h = "480px";
+		resize_button.ariaLabel="Maximize";
 	} else {
 		window_div.style.top = "0";
 		window_div.style.left = "0";
+		resize_button.ariaLabel="Restore";
 	}
 	
 	window_div.style.width = w;
