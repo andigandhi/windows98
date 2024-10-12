@@ -2,7 +2,10 @@
 // ['Name of the Link', 'link adress']
 var menu_icons = [
 	['Non Clickable Menu Point','',''],
-	['My First Page', 'content/index.html','TestIcon.png']
+	['My First Page', 'content/index.html','TestIcon.png'],
+	['Folder', [
+		['My First Page', 'content/index.html','TestIcon.png']
+	], 'Folder.png']
 ];
 
 // The Icons on the desktop, images have to be deposited in /img/ico/
@@ -157,26 +160,58 @@ function build_menu() {
 	menu_div.innerHTML = '<img alt="" src="img/andigandhi98.png" style="width: 150px; margin-top: 5px;">'
 
 	for (var i = 0;i < menu_icons.length; i++) {
-		if (menu_icons[i][1] === '') {
-			menu_div.appendChild(document.createElement("hr"))
-			let label = document.createElement('label');
-			label.innerHTML += menu_icons[i][0];
-			label.className = "menuText";
-			menu_div.appendChild(label);
-		} else {
-			menu_div.appendChild(document.createElement("br"))
-			let menu_item = document.createElement('button');
-			menu_item.style.height = "30px";
-			if (menu_icons[i][2] != '') menu_item.innerHTML = '<img alt="" src="img/ico/'+menu_icons[i][2]+'" style="width: 20px; margin: 5px; float:left;">'
-			menu_item.innerHTML += '<div style="height: 20px;line-height: 20px;margin: 5px;"><b>'+menu_icons[i][0]+'</b></div>';
-			menu_item.className = "menuButton";
-			menu_div.appendChild(menu_item);
-			menu_item.setAttribute('onClick', 'fillWindow('+i+');');
-		}
+		add_menu_item(menu_icons, i, menu_div)
 	}
 	menu_div.appendChild(document.createElement("hr"))
 
 	positionTaskbar();
+}
+
+// Function to add a menu point entry to the menu
+function add_menu_item(itemArray, i, container_div){
+	// Blank labels without any link
+	if (itemArray[i][1] === '') {
+		container_div.appendChild(document.createElement("hr"));
+		let label = document.createElement('label');
+		label.innerHTML += itemArray[i][0];
+		label.className = "menuText";
+		container_div.appendChild(label);
+	// Normal Menu points with a link
+	} else {
+		let menu_item = document.createElement('div');
+		menu_item.style.height = "30px";
+		// Add Icon
+		if (itemArray[i][2] != '') menu_item.innerHTML = '<img alt="" src="img/ico/'+itemArray[i][2]+'" style="width: 20px; margin: 5px; float:left;">';
+		// Add Text
+		menu_item.innerHTML += '<div style="height: 20px;line-height: 20px;margin: 5px;float:left;"><b>'+itemArray[i][0]+'</b></div>';
+		menu_item.className = "menuButton";
+		if (Array.isArray(itemArray[i][1])) {
+			// TODO: Folder Arrow
+		}
+		container_div.appendChild(menu_item);
+		if (Array.isArray(itemArray[i][1])) {
+			menu_item.setAttribute('onMouseEnter', 'showSubmenu(event, '+i+');');
+		} else {
+			var array_to_text = "['"+itemArray[i][0]+"','"+itemArray[i][1]+"','"+itemArray[i][2]+"']"
+			menu_item.setAttribute('onClick', 'fillWindow('+array_to_text+');');
+		}
+	}
+}
+
+function showSubmenu(event, no) {
+	var submenu = document.createElement('div');
+	submenu.setAttribute('id', 'submenu_'+no)
+	submenu.setAttribute('class', 'window');
+	var parent_position = event.target.getBoundingClientRect();
+	submenu.style = "position: absolute; width: 250px; left: "+(parent_position.right)+"px; top: "+(parent_position.top)+"px; z-index: 10000;";
+	submenu.setAttribute('onMouseLeave', 'document.body.removeChild(document.getElementById("submenu_"+'+no+'));');
+	submenu.innerHTML = "<b>"+menu_icons[no][0]+"</b>"
+
+	for (var i = 0;i < menu_icons[no][1].length; i++) {
+		add_menu_item(menu_icons[no][1], i, submenu)
+	}
+	
+	document.body.appendChild(submenu);
 }
 
 // Position the taskbar on the bottom

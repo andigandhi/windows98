@@ -57,6 +57,13 @@ img {
 .menuButton {
 	width: 98%;
 	text-align: left;
+	border: none;
+	cursor: pointer;
+	margin: 0;
+}
+.menuButton:hover {
+	color: #ffffff;
+	background-color: #00007E;
 }
 .menuText {
 	font-size: larger;
