@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 /* CSS Document */
 body {
 	background-color: #008080;
@@ -8,27 +9,36 @@ body {
 	overflow: none;
 	color: #000;
 	font-size: 130%;
-	
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Safari */
-	-khtml-user-select: none; /* Konqueror HTML */
-	-moz-user-select: none; /* Old versions of Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
+	-webkit-touch-callout: none;
+	/* iOS Safari */
+	-webkit-user-select: none;
+	/* Safari */
+	-khtml-user-select: none;
+	/* Konqueror HTML */
+	-moz-user-select: none;
+	/* Old versions of Firefox */
+	-ms-user-select: none;
+	/* Internet Explorer/Edge */
+	user-select: none;
+	/* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
+
 a {
 	color: #000;
 }
+
 img {
 	image-rendering: crisp-edges;
 	image-rendering: pixelated;
-	
-	user-drag: none; 
+
+	user-drag: none;
 	-webkit-user-drag: none;
 }
+
 .icon {
 	text-align: center;
-	font-family: "Pixelated MS Sans Serif",Arial;
+	font-family: "Pixelated MS Sans Serif", Arial;
 	font-size: 15px;
 	width: 64px;
 	height: 100px;
@@ -42,18 +52,21 @@ img {
 	position: absolute;
 	left: 5px;
 	width: 300px;
-	overflow:overlay;
+	overflow: overlay;
 	z-index: 100;
 }
+
 #mainMenuSideBar {
-	background: rgb(0,0,126);
-	background: linear-gradient(180deg, rgba(0,0,126,1) 70%, rgba(14,6,246,1) 85%, rgba(0,0,126,1) 100%);
+	background: rgb(0, 0, 126);
+	background: linear-gradient(180deg, rgba(0, 0, 126, 1) 70%, rgba(14, 6, 246, 1) 85%, rgba(0, 0, 126, 1) 100%);
 	width: 15px;
-	float:left;
+	float: left;
 }
+
 #menu_content {
 	margin-left: 20px;
 }
+
 .menuButton {
 	width: 98%;
 	text-align: left;
@@ -61,10 +74,12 @@ img {
 	cursor: pointer;
 	margin: 0;
 }
+
 .menuButton:hover {
 	color: #ffffff;
 	background-color: #00007E;
 }
+
 .menuText {
 	font-size: larger;
 }
@@ -77,6 +92,7 @@ img {
 	height: 50px;
 	z-index: 99;
 }
+
 .taskElement {
 	float: left;
 	text-align: left;
@@ -84,20 +100,29 @@ img {
 	margin: 5px;
 	width: 200px;
 }
+
 #btnClock {
 	float: right;
 	height: 30px;
 }
 
 button.active {
-  box-shadow: inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+	box-shadow: inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
 }
 
 @media only screen and (max-width: 1000px) {
-	.window, button, input, label, option, select, textarea, ul.tree-view {
+
+	.window,
+	button,
+	input,
+	label,
+	option,
+	select,
+	textarea,
+	ul.tree-view {
 		font-size: 20px;
 	}
-	
+
 	#menuWind {
 		width: 40vw;
 	}
