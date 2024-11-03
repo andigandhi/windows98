@@ -191,6 +191,7 @@ function add_menu_item(itemArray, i, container_div) {
 		container_div.appendChild(menu_item);
 		if (Array.isArray(itemArray[i][1])) {
 			menu_item.setAttribute('onMouseEnter', 'showSubmenu(event, ' + i + ');');
+			menu_item.setAttribute('onMouseLeave', 'document.body.removeChild(document.getElementById("submenu_"+' + i + '));');
 		} else {
 			var array_to_text = "['" + itemArray[i][0] + "','" + itemArray[i][1] + "','" + itemArray[i][2] + "']"
 			menu_item.setAttribute('onClick', 'fillWindow(' + array_to_text + ');');
@@ -203,7 +204,7 @@ function showSubmenu(event, no) {
 	submenu.setAttribute('id', 'submenu_' + no)
 	submenu.setAttribute('class', 'window');
 	var parent_position = event.target.getBoundingClientRect();
-	submenu.style = "position: absolute; width: 250px; left: " + (parent_position.right) + "px; top: " + (parent_position.top) + "px; z-index: 10000;";
+	submenu.style = "position: absolute; width: 250px; left: " + (parent_position.right) + "px; z-index: 10000;";
 	submenu.setAttribute('onMouseLeave', 'document.body.removeChild(document.getElementById("submenu_"+' + no + '));');
 	submenu.innerHTML = "<b>" + menu_icons[no][0] + "</b>"
 
@@ -211,7 +212,7 @@ function showSubmenu(event, no) {
 		add_menu_item(menu_icons[no][1], i, submenu)
 	}
 
-	document.body.appendChild(submenu);
+	event.target.appendChild(submenu);
 }
 
 // Position the taskbar on the bottom
